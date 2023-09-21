@@ -16,6 +16,17 @@ defmodule Mix.Tasks.Euler.New do
     template_lib_path = Path.join([app_dir, "lib", module_file_name])
     template_test_path = Path.join([app_dir, "test", module_file_name])
 
+    # download description of problem
+    HTTPoison.start()
+    %HTTPoison.Response{body: body} = HTTPoison.get!("https://projecteuler.net/problem=#{id}")
+
+    doc =
+      body
+      |> Floki.parse_document!()
+      |> Floki.find("div.problem_content")
+      |> Floki.find("p")
+      |> Floki.text(sep: "\n\n")
+
     cond do
       File.exists?(template_lib_path) ->
         IO.puts("[ERROR] Problem already exists at #{template_lib_path}.")
@@ -28,7 +39,9 @@ defmodule Mix.Tasks.Euler.New do
           template_lib_path,
           """
           defmodule #{String.capitalize(module_name)} do
-            @moduledoc "TODO: Pull this in from website."
+            @moduledoc \"\"\"
+            #{doc}
+            \"\"\"
 
             def run do
               "ZERO IS NOT A NUMBER!"
@@ -45,7 +58,9 @@ defmodule Mix.Tasks.Euler.New do
             use ExUnit.Case
             doctest #{module_name}
 
-            @moduledoc "TODO: Pull this in from website."
+            @moduledoc \"\"\"
+            #{doc}
+            \"\"\"
 
             test "Returns a number" do
               assert #{module_name}.run() == 0
@@ -54,6 +69,8 @@ defmodule Mix.Tasks.Euler.New do
           """,
           [:write]
         )
+
+        Mix.Shell.cmd("mix format", fn output -> IO.puts(output) end)
     end
   end
 end
