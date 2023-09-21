@@ -1,21 +1,16 @@
 # Euler
 
-**TODO: Add description**
+My take on projecteuler.net problems in elixir.
 
-## Installation
+# Add new problem
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `euler` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:euler, "~> 0.1.0"}
-  ]
-end
+```
+$ mix euler.new <id>
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/euler>.
+This will create two files:
 
+- `lib/problem_<id>.ex`
+- `test/problem_<id>_test.exs`
+
+These files should contain a failing test.
