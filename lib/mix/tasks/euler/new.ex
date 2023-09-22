@@ -10,11 +10,9 @@ defmodule Mix.Tasks.Euler.New do
 
   def run([id]) do
     app_dir = File.cwd!()
-    module_file_name = "problem_#{id}.ex"
     module_name = "Problem#{id}"
-
-    template_lib_path = Path.join([app_dir, "lib", module_file_name])
-    template_test_path = Path.join([app_dir, "test", module_file_name])
+    template_lib_path = Path.join([app_dir, "lib", "problem_#{id}.ex"])
+    template_test_path = Path.join([app_dir, "test", "problem_#{id}_test.exs"])
 
     # download description of problem
     HTTPoison.start()
@@ -52,7 +50,7 @@ defmodule Mix.Tasks.Euler.New do
         )
 
         File.write(
-          "#{template_test_path}s",
+          template_test_path,
           """
           defmodule #{String.capitalize(module_name)}Test do
             use ExUnit.Case
