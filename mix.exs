@@ -21,8 +21,9 @@ defmodule Euler.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 2.0"},
-      {:floki, "~> 0.34.0"}
+      {:httpoison, "~> 2.0", only: [:dev, :test], runtime: false},
+      {:floki, "~> 0.34.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 end
