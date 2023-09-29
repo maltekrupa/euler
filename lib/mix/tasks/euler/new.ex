@@ -24,6 +24,7 @@ defmodule Mix.Tasks.Euler.New do
       |> Floki.find("div.problem_content")
       |> Floki.find("p")
       |> Floki.text(sep: "\n\n")
+      |> String.replace("$", "")
 
     cond do
       File.exists?(template_lib_path) ->
