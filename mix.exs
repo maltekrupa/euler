@@ -23,7 +23,8 @@ defmodule Euler.MixProject do
     [
       {:httpoison, "~> 2.0", only: [:dev, :test], runtime: false},
       {:floki, "~> 0.34.0", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:benchee, "~> 1.0", only: :dev}
     ]
   end
 end

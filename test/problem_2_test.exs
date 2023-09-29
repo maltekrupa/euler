@@ -13,6 +13,10 @@ defmodule Problem2Test do
     assert Problem2.run(0) == 0
   end
 
+  test "Returns sum of even-valued terms for values lower than ten" do
+    assert Problem2.run(34) == 44
+  end
+
   test "Returns sum of even-valued terms for values lower than four million" do
     assert Problem2.run(4_000_000) == 4_613_732
   end

@@ -9,20 +9,44 @@ defmodule Problem2 do
   @spec run(integer) :: integer
   def run(0), do: 0
 
+  # fn for tests
   def run(input) do
-    (input - 2)
-    |> do_run({2, 1})
+    input
+    |> do_run_tuple({2, 1})
   end
 
-  @spec do_run(integer, {integer, integer}, integer) :: integer
-  defp do_run(limit, acc \\ {}, sum \\ 0)
-  defp do_run(limit, {a, _b}, sum) when a > limit, do: sum
-
-  defp do_run(limit, {a, b}, sum) when rem(a, 2) == 0 do
-    do_run(limit, {a + b, a}, sum + a)
+  # fn for benchee
+  def run_list(input) do
+    input
+    |> do_run_list([2, 1])
   end
 
-  defp do_run(limit, {a, b}, sum) do
-    do_run(limit, {a + b, a}, sum)
+  # fn for benchee
+  def run_tuple(input) do
+    input
+    |> do_run_tuple({2, 1})
+  end
+
+  @spec do_run_list(integer, [integer]) :: integer
+  defp do_run_list(limit, [a | _rest] = acc) when a >= limit do
+    acc
+    |> Enum.filter(fn x -> rem(x, 2) == 0 end)
+    |> Enum.sum()
+  end
+
+  defp do_run_list(limit, [a, b | _c] = d) do
+    do_run_list(limit, [a + b | d])
+  end
+
+  @spec do_run_tuple(integer, {integer, integer}, integer) :: integer
+  defp do_run_tuple(limit, acc, sum \\ 0)
+  defp do_run_tuple(limit, {a, _b}, sum) when a > limit, do: sum
+
+  defp do_run_tuple(limit, {a, b}, sum) when rem(a, 2) == 0 do
+    do_run_tuple(limit, {a + b, a}, sum + a)
+  end
+
+  defp do_run_tuple(limit, {a, b}, sum) do
+    do_run_tuple(limit, {a + b, a}, sum)
   end
 end
